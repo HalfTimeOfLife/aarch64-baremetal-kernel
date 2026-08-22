@@ -1,48 +1,89 @@
 # AArch64 Bare-Metal Kernel
 
-A minimal bare-metal kernel for AArch64 (ARMv8-A), built from scratch on QEMU's `virt` machine. The goal is to learn the ARM64 architecture and kernel fundamentals.
+A small bare-metal kernel for AArch64 (ARMv8-A), built from scratch and executed on QEMU's `virt` machine.
+
+---
 
 ## Target platform
 
+- Execution environment: QEMU
+- Machine: QEMU `virt`
 - Architecture: AArch64 (ARMv8-A)
-- Machine: QEMU
+- CPU: `cortex-a53`
+- Language: C and AArch64 assembly
 
-## Setup (WSL) (FOR THE DEV WILL BE REMOVED)
+---
 
-Development happens inside WSL2 (Ubuntu).
+## Project roadmap
 
-1. Install WSL with Ubuntu (from an elevated PowerShell):
-   ```powershell
-   wsl --install -d Ubuntu
-   ```
-   Restart if prompted, then finish the Ubuntu first-run setup (username/password).
+The project is developed incrementally through four releases:
 
-2. Inside the Ubuntu/WSL shell, update packages and install the build tools:
-   ```bash
-   sudo apt update
-   sudo apt install -y build-essential gdb-multiarch qemu-system-arm gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu
-   ```
+| Version | Feature                                     |
+| ------- | ------------------------------------------- |
+| v0.1    | Minimal boot and UART output                |
+| v0.2    | Exception levels and exception vector table |
+| v0.3    | Timer interrupts and round-robin scheduler  |
+| v0.4    | IRQ-driven UART driver                      |
 
-3. Verify the toolchain and emulator:
-   ```bash
-   aarch64-linux-gnu-gcc --version
-   qemu-system-aarch64 --version
-   ```
+Each version is documented in a dedicated article explaining the concepts introduced and the implementation choices made.
 
-4. Clone the project and build from inside WSL (not from the Windows filesystem, i.e. keep the repo under `~/`, not `/mnt/c/...`, for faster I/O):
-   ```bash
-   cd ~
-   git clone <repo-url>
-   cd <repo-name>
-   make
-   make qemu
-   ```
+See [ROADMAP.md](ROADMAP.md) for the complete development and study roadmap.
+
+---
+
+## Requirements
+
+A Linux environment with the following tools installed:
+
+- `aarch64-none-elf-gcc`
+- `aarch64-none-elf-binutils`
+- `make`
+- `qemu-system-aarch64`
+- `gdb-multiarch`
+
+---
+
+## Development environment
+
+Development may be performed using WSL2 with Ubuntu.
+
+For example:
+
+```
+sudo apt update
+sudo apt install -y build-essential qemu-system-arm gdb-multiarch
+```
+
+The `aarch64-none-elf` cross compiler should then be installed separately according to the host distribution or toolchain being used.
+
+The repository should preferably be kept inside the WSL filesystem rather than under `/mnt/c/` for better filesystem performance.
+
+---
 
 ## Resources
 
-- [Bare-metal C programming on ARM](https://github.com/umanovskis/baremetal-arm)
-- [ARM Architecture Reference Manual for A-profile architecture (DDI 0487)](https://developer.arm.com/documentation/ddi0487/latest)
-- [ARM Cortex-A Series Programmer's Guide for ARMv8-A (DEN0024)](https://developer.arm.com/documentation/den0024/latest)
-- [QEMU `virt` machine documentation](https://www.qemu.org/docs/master/system/arm/virt.html)
-- [OSDev wiki, Raspberry Pi Bare Bones](https://wiki.osdev.org/Raspberry_Pi_Bare_Bones)
-- [s-matyukevich/raspberry-pi-os](https://github.com/s-matyukevich/raspberry-pi-os)
+### Primary study resource
+
+[CheesecakeOS](https://github.com/jmielkeway/ccos4rbpi_volume0)
+
+CheesecakeOS is used as the primary learning resource for the project.
+
+### ARM documentation
+
+[Arm Architecture Reference Manual for A-profile architecture (DDI 0487)](https://developer.arm.com/documentation/ddi0487/latest)
+
+[Arm Cortex-A Series Programmer's Guide for Armv8-A (DEN0024)](https://developer.arm.com/documentation/den0024/latest)
+
+### QEMU
+
+[QEMU `virt` machine documentation](https://www.qemu.org/docs/master/system/arm/virt.html)
+
+### Additional reference
+
+[OSDev Wiki](https://wiki.osdev.org/)
+
+--- 
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
