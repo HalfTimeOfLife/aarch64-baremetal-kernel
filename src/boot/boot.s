@@ -1,15 +1,18 @@
 .section .text.boot
 
 .global _start
-.extern kernel_main
+.extern uart_puts
 
 _start:
-    // Setup stack
     ldr x0, =_stack_top
     mov sp, x0
 
-    bl kernel_main
+    ldr x0, =message
+    bl uart_puts
 
     b .
 
+.section .rodata
 
+message:
+    .asciz "Hello, AArch64!"
