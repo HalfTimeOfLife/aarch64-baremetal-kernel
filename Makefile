@@ -1,15 +1,16 @@
 CROSS = aarch64-none-elf
 
-CC = $(CROSS)-gcc
+AS = $(CROSS)-gcc
 LD = $(CROSS)-ld
 
 LD_CUSTOM = linker.ld
 
-SRC_S := $(wildcard src/*/*.s)
-SRC_C := $(wildcard src/*/*.c)
+SRC := $(wildcard src/*/*.s)
+
 OUTPUT_DIR := build
-OBJ := $(patsubst src/%.s,$(OUTPUT_DIR)/%.o,$(SRC_S)) \
-	$(patsubst src/%.c,$(OUTPUT_DIR)/%.o,$(SRC_C))
+
+OBJ := $(patsubst src/%.s,$(OUTPUT_DIR)/%.o,$(SRC))
+
 OUTPUT := $(OUTPUT_DIR)/kernel.elf
 
 all: $(OUTPUT)
@@ -20,11 +21,12 @@ $(OUTPUT): $(OBJ) $(LD_CUSTOM)
 
 $(OUTPUT_DIR)/%.o: src/%.s
 	mkdir -p $(@D)
-	$(CC) -c $< -o $@
+	$(AS) -c $< -o $@
 
-$(OUTPUT_DIR)/%.o: src/%.c
-	mkdir -p $(@D)
-	$(CC) -c $< -o $@
+help:
+	@echo "Targets:"
+	@echo "  make release   Build kernel"
+	@echo "  make clean     Remove build files"
 
 clean:
 	rm -rf $(OUTPUT_DIR)
