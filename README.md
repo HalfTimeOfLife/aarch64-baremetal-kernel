@@ -9,8 +9,32 @@ A small bare-metal kernel for AArch64 (ARMv8-A), built from scratch and executed
 - Execution environment: QEMU
 - Machine: QEMU `virt`
 - Architecture: AArch64 (ARMv8-A)
-- CPU: `cortex-a53`
-- Language: C and AArch64 assembly
+- CPU: `cortex-a57`
+- Language: AArch64 assembly
+
+---
+
+## Project structure
+
+```text
+aarch64-baremetal-kernel/
+├── notes
+│   └── v01.md
+├── scripts
+│   └── check_setup.sh
+├── src
+│   ├── boot
+│   │   └── boot.s
+│   └── uart
+│       └── uart.s
+├── .gitignore
+├── CHANGELOG.md
+├── LICENSE
+├── Makefile
+├── README.md
+├── ROADMAP.md
+└── linker.ld
+```
 
 ---
 
@@ -18,14 +42,17 @@ A small bare-metal kernel for AArch64 (ARMv8-A), built from scratch and executed
 
 The project is developed incrementally through four releases:
 
-| Version | Feature                                     |
-| ------- | ------------------------------------------- |
-| v0.1    | Minimal boot and UART output                |
-| v0.2    | Exception levels and exception vector table |
-| v0.3    | Timer interrupts and round-robin scheduler  |
-| v0.4    | IRQ-driven UART driver                      |
+| Version | Feature                                           |
+| ------- | ------------------------------------------------- |
+| v0.1    | Boot and UART                                     |
+| v0.2    | Exceptions, interrupts and exception vector table |
+| v0.3    | ARM timer and periodic interrupts                 |
+| v0.4    | Physical memory management and MMU                |
+| v0.5    | Exception levels and kernel/user separation       |
+| v0.6    | Multitasking and scheduler                        |
+| v0.7    | Drivers and peripherals                           |
+| v1.0    | Minimal usable operating system                   |
 
-Each version is documented in a dedicated article explaining the concepts introduced and the implementation choices made.
 
 See [ROADMAP.md](ROADMAP.md) for the complete development and study roadmap.
 
@@ -40,6 +67,10 @@ A Linux environment with the following tools installed:
 - `make`
 - `qemu-system-aarch64`
 - `gdb-multiarch`
+
+The [scripts/check_setup.sh](scripts/check_setup.sh) script can be used to verify that all required tools are installed and available in the environment.
+
+
 
 ---
 
@@ -57,6 +88,34 @@ sudo apt install -y build-essential qemu-system-arm gdb-multiarch
 The `aarch64-none-elf` cross compiler should then be installed separately according to the host distribution or toolchain being used.
 
 The repository should preferably be kept inside the WSL filesystem rather than under `/mnt/c/` for better filesystem performance.
+
+---
+
+## Run
+
+Build the kernel with:
+
+```bash
+make
+```
+
+Then run it with QEMU:
+
+```bash
+qemu-system-aarch64 \
+    -M virt \
+    -cpu cortex-a57 \
+    -nographic \
+    -kernel build/kernel.elf
+```
+
+Expected output:
+
+```text
+Hello, AArch64!
+```
+
+The kernel then enters an infinite loop.
 
 ---
 
