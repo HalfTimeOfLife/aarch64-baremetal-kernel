@@ -18,22 +18,31 @@ A small bare-metal kernel for AArch64 (ARMv8-A), built from scratch and executed
 
 ```text
 aarch64-baremetal-kernel/
+├── assets
+│   └── icon.svg
 ├── notes
-│   └── v01.md
+│   ├── v01.md
+│   └── v02.md
 ├── scripts
 │   └── check_setup.sh
 ├── src
 │   ├── boot
 │   │   └── boot.s
+│   ├── exceptions
+│   │   ├── handlers.s
+│   │   └── vectors.s
+│   ├── gic
+│   │   ├── gic.inc
+│   │   └── gic.s
 │   └── uart
 │       └── uart.s
 ├── .gitignore
 ├── CHANGELOG.md
 ├── LICENSE
+├── linker.ld
 ├── Makefile
 ├── README.md
-├── ROADMAP.md
-└── linker.ld
+└── ROADMAP.md
 ```
 
 ---
@@ -109,11 +118,9 @@ qemu-system-aarch64 \
     -kernel build/kernel.elf
 ```
 
-Expected output:
+Expected output depends on the current version. 
 
-```text
-Hello, AArch64!
-```
+> See [notes/](notes/) for the detailed walkthrough of each release.
 
 The kernel then enters an infinite loop.
 
@@ -132,6 +139,8 @@ CheesecakeOS is used as the primary learning resource for the project.
 [Arm Architecture Reference Manual for A-profile architecture (DDI 0487)](https://developer.arm.com/documentation/ddi0487/latest)
 
 [Arm Cortex-A Series Programmer's Guide for Armv8-A (DEN0024)](https://developer.arm.com/documentation/den0024/latest)
+
+[Arm Generic Interrupt Controller Architecture Specification (GICv2)](https://developer.arm.com/documentation/ihi0048/latest/)
 
 ### QEMU
 
