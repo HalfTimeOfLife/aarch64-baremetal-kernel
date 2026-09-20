@@ -3,6 +3,8 @@ CROSS = aarch64-none-elf
 AS = $(CROSS)-gcc
 LD = $(CROSS)-ld
 
+ASFLAGS = -Isrc
+
 LD_CUSTOM = linker.ld
 
 SRC := $(wildcard src/*/*.s)
@@ -21,7 +23,7 @@ $(OUTPUT): $(OBJ) $(LD_CUSTOM)
 
 $(OUTPUT_DIR)/%.o: src/%.s
 	mkdir -p $(@D)
-	$(AS) -c $< -o $@
+	$(AS) $(ASFLAGS) -c $< -o $@
 
 help:
 	@echo "Targets:"

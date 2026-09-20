@@ -4,20 +4,6 @@ Format inspired by [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
-## [0.2] - Exceptions and Interrupts
-
-Introduce the AArch64 exception mechanism and build the first exception vector table.
-
-### Planned
-- Exception vector table
-- `VBAR_EL1` configuration
-- Synchronous exception handler
-- IRQ handler
-- Basic exception diagnostics through UART
-- Understanding of `ESR_EL1`, `ELR_EL1` and `SPSR_EL1`
-
----
-
 ## [0.3] - ARM Timer
 
 Introduce the ARM generic timer and periodic interrupts.
@@ -108,7 +94,7 @@ Consolidate the previous components into a small usable operating system.
 | Version | Feature | Status |
 |---|---|---|
 | v0.1 | Boot and UART | Shipped |
-| v0.2 | Exceptions and interrupts | Planned |
+| v0.2 | Exceptions and interrupts | Shipped |
 | v0.3 | ARM timer | Planned |
 | v0.4 | Memory management and MMU | Planned |
 | v0.5 | Exception levels and user mode | Planned |
