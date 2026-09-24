@@ -4,19 +4,6 @@ Format inspired by [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
-## [0.3] - ARM Timer
-
-Introduce the ARM generic timer and periodic interrupts.
-
-### Planned
-- Generic timer configuration
-- Timer interrupt
-- Interrupt acknowledgement
-- Periodic timer tick
-- Basic timekeeping
-
----
-
 ## [0.4] - Memory Management
 
 Introduce physical memory management and virtual memory.
@@ -95,7 +82,7 @@ Consolidate the previous components into a small usable operating system.
 |---|---|---|
 | v0.1 | Boot and UART | Shipped |
 | v0.2 | Exceptions and interrupts | Shipped |
-| v0.3 | ARM timer | Planned |
+| v0.3 | ARM timer | Shipped |
 | v0.4 | Memory management and MMU | Planned |
 | v0.5 | Exception levels and user mode | Planned |
 | v0.6 | Multitasking and scheduler | Planned |

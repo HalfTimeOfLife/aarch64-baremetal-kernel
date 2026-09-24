@@ -4,6 +4,22 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.3] - ARM Timer
+
+Introduces the ARM generic timer, running as a periodic PPI through the GICv2 configured in v0.2.
+
+### Added
+- `src/timer/timer.s`: `timer_init`/`timer_set_interval`, configures `CNTP_TVAL_EL0`/`CNTP_CTL_EL0` for a ~100 Hz tick (non-secure EL1 physical timer, GIC PPI ID 30)
+- `src/gic/gic.s`: `gic_init` extended to enable PPI 30 alongside SGI 0
+- `src/exceptions/handlers.s`: `el_irq` now dispatches by interrupt ID; `timer_irq` re-arms the timer, increments `tick_count`, and prints it every 512 ticks
+- `bl timer_init` added to `_start`, after `gic_init` and before IRQ unmask
+
+### Notes
+- Validated on QEMU: tick count increases by exactly 512 between each print, confirming periodic firing and correct re-arming
+- Full details and register reference in [notes/v03.md](notes/v03.md)
+
+---
+
 ## [0.2] - Exceptions and Interrupts
 
 Introduces the AArch64 exception mechanism, a full exception vector table, and the GIC (interrupt controller), running on QEMU `virt`'s GICv2.
