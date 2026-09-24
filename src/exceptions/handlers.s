@@ -7,6 +7,8 @@
 
 .extern uart_puts
 .extern uart_put_hex
+.extern timer_set_interval
+.extern tick_count
 
 el_synchronous:
     stp x29, x30, [sp, #-16]!
@@ -44,6 +46,9 @@ el_irq:
     ldr x0, =GICC_BASE
     ldr w22, [x0, #GICC_IAR]
 
+    cmp w22, #30
+    b.eq timer_irq
+
     ldr x0, =message_irq
     bl uart_puts
 
@@ -54,7 +59,26 @@ el_irq:
 
     ldr x0, =message_newline
     bl uart_puts
+    
+    b eoi
 
+timer_irq:
+    bl timer_set_interval
+    
+    ldr x0, =tick_count
+    ldr x23, [x0]
+    add x23, x23, #1
+    str x23, [x0]
+
+    tst x23, #0x1FF
+    b.ne eoi
+    
+    ldr x0, =message_prefix_tick
+    bl uart_puts
+    mov x0, x23
+    bl uart_put_hex
+
+eoi:
     // write back the exact raw value read from GICC_IAR
     ldr x0, =GICC_BASE
     str w22, [x0, #GICC_EOIR]
@@ -85,3 +109,6 @@ message_irq:
 
 message_prefix_iar:
     .asciz "\nGICC_IAR: 0x"
+
+message_prefix_tick:
+    .asciz "\nTick: 0x"

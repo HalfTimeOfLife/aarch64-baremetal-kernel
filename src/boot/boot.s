@@ -4,6 +4,7 @@
 .extern _exception_vector_table
 .extern gic_init
 .extern uart_puts
+.extern timer_init
 
 .include "gic/gic.inc"
 
@@ -20,6 +21,8 @@ _start:
 
     // Must run after VBAR_EL1 and before IRQ unmask
     bl gic_init
+
+    bl timer_init
 
     msr daifclr, #2
 

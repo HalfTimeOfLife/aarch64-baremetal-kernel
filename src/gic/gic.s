@@ -10,9 +10,10 @@ gic_init:
     mov w1, #0x1
     str w1, [x0, #GICD_CTLR]
 
-    // Distributor: enable SGI 0
+    // Distributor: enable SGI 0 and PPI 30
     ldr x0, =GICD_BASE
-    mov w2, #0x1
+    mov  w2, #0x1
+    movk w2, #0x4000, lsl #16 
     str w2, [x0, #GICD_ISENABLER0]
 
     // CPU interface: let all priorities through
