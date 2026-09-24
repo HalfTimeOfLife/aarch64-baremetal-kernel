@@ -18,11 +18,10 @@ A small bare-metal kernel for AArch64 (ARMv8-A), built from scratch and executed
 
 ```text
 aarch64-baremetal-kernel/
-├── assets
-│   └── icon.svg
 ├── notes
 │   ├── v01.md
-│   └── v02.md
+│   ├── v02.md
+│   └── v03.md
 ├── scripts
 │   └── check_setup.sh
 ├── src
@@ -34,15 +33,17 @@ aarch64-baremetal-kernel/
 │   ├── gic
 │   │   ├── gic.inc
 │   │   └── gic.s
+│   ├── timer
+│   │   └── timer.s
 │   └── uart
 │       └── uart.s
 ├── .gitignore
 ├── CHANGELOG.md
 ├── LICENSE
-├── linker.ld
 ├── Makefile
 ├── README.md
-└── ROADMAP.md
+├── ROADMAP.md
+└── linker.ld
 ```
 
 ---
