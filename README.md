@@ -2,6 +2,8 @@
 
 A small bare-metal kernel for AArch64 (ARMv8-A), built from scratch and executed on QEMU's `virt` machine.
 
+[![CI](https://github.com/HalfTimeOfLife/aarch64-baremetal-kernel/actions/workflows/ci.yml/badge.svg)](https://github.com/HalfTimeOfLife/aarch64-baremetal-kernel/actions/workflows/ci.yml)
+
 ---
 
 ## Target platform

@@ -4,20 +4,6 @@ Format inspired by [Keep a Changelog](https://keepachangelog.com/).
 
 ---
 
-## [0.4] - Memory Management
-
-Introduce physical memory management and virtual memory.
-
-### Planned
-- Physical memory layout
-- Basic physical memory allocator
-- Page tables
-- MMU configuration
-- Virtual memory mapping
-- Transition from physical to virtual addressing
-
----
-
 ## [0.5] - Exception Levels and User Mode
 
 Introduce multiple AArch64 exception levels and kernel/user separation.
@@ -83,7 +69,7 @@ Consolidate the previous components into a small usable operating system.
 | v0.1 | Boot and UART | Shipped |
 | v0.2 | Exceptions and interrupts | Shipped |
 | v0.3 | ARM timer | Shipped |
-| v0.4 | Memory management and MMU | Planned |
+| v0.4 | Memory management and MMU | Shipped |
 | v0.5 | Exception levels and user mode | Planned |
 | v0.6 | Multitasking and scheduler | Planned |
 | v0.7 | Drivers and peripherals | Planned |
