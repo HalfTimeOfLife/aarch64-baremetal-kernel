@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-arm
+
+      - name: Install AArch64 toolchain
+        run: |
+          curl -L -o toolchain.tar.xz \
+            "https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-x86_64-aarch64-none-elf.tar.xz"
+          mkdir -p "$HOME/toolchain"
+          tar -xf toolchain.tar.xz -C "$HOME/toolchain" --strip-components=1
+          echo "$HOME/toolchain/bin" >> "$GITHUB_PATH"
+
+      - name: Verify toolchain
+        run: aarch64-none-elf-gcc --version
+
+      - name: Build
+        run: make
+
+      - name: Test
+        run: make test
