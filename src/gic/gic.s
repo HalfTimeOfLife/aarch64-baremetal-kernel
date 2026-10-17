@@ -4,6 +4,15 @@
 
 .include "gic/gic.inc"
 
+// ------------------------------------------------------------------
+// gic_init
+//   Enables the GICv2 Distributor + CPU interface, and the
+//   interrupts SGI 0 and PPI 30.
+//
+//   in    -
+//   out   -
+//   uses  x0, x1, x2, x3, x4
+// ------------------------------------------------------------------
 gic_init:
     // Distributor: enable Group 0 forwarding
     ldr x0, =GICD_BASE

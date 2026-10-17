@@ -9,3 +9,5 @@
 .equ GICC_PMR,        0x004
 .equ GICC_IAR,        0x00C
 .equ GICC_EOIR,       0x010
+
+.equ GIC_SIZE, 0x20000

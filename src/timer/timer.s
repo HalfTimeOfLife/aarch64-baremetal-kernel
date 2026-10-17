@@ -4,6 +4,14 @@
 .global timer_init
 .global tick_count
 
+// ------------------------------------------------------------------
+// timer_set_interval
+//   Arms the timer for the next tick (CNTFRQ_EL0 / 100, about 10 ms).
+//
+//   in    -
+//   out   -
+//   uses  x0, x1
+// ------------------------------------------------------------------
 timer_set_interval:
     mrs x0, cntfrq_el0
 
@@ -14,6 +22,14 @@ timer_set_interval:
 
     ret
 
+// ------------------------------------------------------------------
+// timer_init
+//   Arms the first tick and enables the non-secure EL1 physical timer.
+//
+//   in    -
+//   out   -
+//   uses  x0, x1; x30 is saved
+// ------------------------------------------------------------------
 timer_init:
     str x30, [sp, #-16]!
     bl timer_set_interval
@@ -24,7 +40,7 @@ timer_init:
     ldr x30, [sp], #16
     ret
 
-.section .bss
+.section .bss.timer
 .align 3
 tick_count:
     .skip 8

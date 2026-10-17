@@ -4,12 +4,16 @@
 .global uart_puts
 .global uart_put_hex
 
-.equ UART_BASE, 0x09000000
-.equ UART_FR,   0x18
-.equ UART_DR,   0x00
-.equ UART_TXFF, 0x20
+.include "uart/uart.inc"
 
-// Writes one character in w0 to UART, polling until the FIFO has room
+// ------------------------------------------------------------------
+// uart_putc
+//   Writes one character to the UART, polling until the FIFO has room.
+//
+//   in    w0   character
+//   out   -
+//   uses  x1, x2
+// ------------------------------------------------------------------
 uart_putc:
     ldr x1, =UART_BASE
 
@@ -22,7 +26,14 @@ wait:
 
     ret
 
-// Writes a null-terminated string pointed to by x0
+// ------------------------------------------------------------------
+// uart_puts
+//   Writes a null-terminated string to the UART.
+//
+//   in    x0   string address
+//   out   -
+//   uses  x0, x1, x2 (via uart_putc); x19, x30 are saved
+// ------------------------------------------------------------------
 uart_puts:
     stp x19, x30, [sp, #-16]!
     mov x19, x0
@@ -37,7 +48,14 @@ done:
     ldp x19, x30, [sp], #16
     ret
 
-// Prints the 64-bit value in x0 as 16 hex digits
+// ------------------------------------------------------------------
+// uart_put_hex
+//   Prints a 64-bit value as 16 hexadecimal digits.
+//
+//   in    x0   value
+//   out   -
+//   uses  x0, x1, x2, x3; x19, x20, x30 are saved
+// ------------------------------------------------------------------
 uart_put_hex:
     stp x19, x20, [sp, #-32]!
     stp x30, xzr, [sp, #16]
@@ -49,7 +67,7 @@ hex_loop:
     lsr x3, x19, #60
     and x3, x3, #0xF
 
-    ldr x2, =hex_chars
+    adr x2, hex_chars
     ldrb w0, [x2, x3]
     bl uart_putc
 

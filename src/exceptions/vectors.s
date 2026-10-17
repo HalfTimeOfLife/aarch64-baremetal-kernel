@@ -8,6 +8,7 @@ vector_\handler:
 	mrs	x19,  ELR_EL1
 	mrs	x20,  SPSR_EL1
 	mrs	x21,  ESR_EL1
+	mrs	x22,  FAR_EL1
 
 	mov	x0, sp
 
