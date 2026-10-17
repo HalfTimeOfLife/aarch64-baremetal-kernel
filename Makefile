@@ -33,4 +33,7 @@ help:
 clean:
 	rm -rf $(OUTPUT_DIR)
 
-.PHONY: all clean
+test: $(OUTPUT)
+	@bash scripts/test.sh
+
+.PHONY: all clean test
