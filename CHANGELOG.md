@@ -4,6 +4,26 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.4] - Memory Management
+
+Introduces physical memory management, 4-level page tables, the MMU with a higher-half kernel, and a test suite.
+
+### Added
+- `src/mm/pmm.s`: physical page allocator (`page_alloc`/`page_free`/`pmm_init`), free list over `[_heap_start, RAM_END[`
+- `src/mm/pgtable.s`: `map_page`, `map_range`, `translate` (4-level, 4 KB granule translation tables)
+- `src/mm/mmu.s`: `mmu_config` (MAIR_EL1/TCR_EL1), `mmu_map_identity`, `mmu_map_high`, `mmu_enable`, `mmu_enable_caches`
+- `src/exceptions/handlers.s`: `el_synchronous` now dispatches by EC (skips data aborts after counting them, halts on anything else)
+- `linker.ld`: kernel linked at high virtual addresses (`TTBR1_EL1`, `0xFFFF000040000000`), loaded at its physical address; `_heap_start` kept absolute
+- `src/tests/tests.s`: 25 checks (registers, allocator, hardware translation via `AT`/`PAR_EL1`, kernel location, aliasing, permissions)
+- `scripts/test.sh`, `make test`: runs the kernel under QEMU and validates the test output
+- `.github/workflows/ci.yml`: CI build and test on every push
+
+### Notes
+- Validated under QEMU: identity-mapped RAM/GIC/UART, a direct high-half mapping of the RAM, read-only and non-executable page permissions, and a kernel running entirely from the high half
+- Full details in [notes/v04.md](notes/v04.md)
+
+---
+
 ## [0.3] - ARM Timer
 
 Introduces the ARM generic timer, running as a periodic PPI through the GICv2 configured in v0.2.
